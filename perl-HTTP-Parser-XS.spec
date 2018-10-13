@@ -4,17 +4,16 @@
 #
 Name     : perl-HTTP-Parser-XS
 Version  : 0.17
-Release  : 1
+Release  : 2
 URL      : https://cpan.metacpan.org/authors/id/K/KA/KAZUHO/HTTP-Parser-XS-0.17.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/K/KA/KAZUHO/HTTP-Parser-XS-0.17.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libh/libhttp-parser-xs-perl/libhttp-parser-xs-perl_0.17-1.debian.tar.xz
 Summary  : 'a fast, primitive HTTP request parser'
 Group    : Development/Tools
 License  : Artistic-1.0-Perl GPL-2.0 MIT
-Requires: perl-HTTP-Parser-XS-lib
-Requires: perl-HTTP-Parser-XS-license
-Requires: perl-HTTP-Parser-XS-man
-Requires: perl(Module::Install)
+Requires: perl-HTTP-Parser-XS-lib = %{version}-%{release}
+Requires: perl-HTTP-Parser-XS-license = %{version}-%{release}
+BuildRequires : buildreq-cpan
 BuildRequires : perl(Module::Install)
 
 %description
@@ -23,10 +22,20 @@ HTTP::Parser::XS - a fast, primitive HTTP request parser
 SYNOPSIS
 use HTTP::Parser::XS qw(parse_http_request);
 
+%package dev
+Summary: dev components for the perl-HTTP-Parser-XS package.
+Group: Development
+Requires: perl-HTTP-Parser-XS-lib = %{version}-%{release}
+Provides: perl-HTTP-Parser-XS-devel = %{version}-%{release}
+
+%description dev
+dev components for the perl-HTTP-Parser-XS package.
+
+
 %package lib
 Summary: lib components for the perl-HTTP-Parser-XS package.
 Group: Libraries
-Requires: perl-HTTP-Parser-XS-license
+Requires: perl-HTTP-Parser-XS-license = %{version}-%{release}
 
 %description lib
 lib components for the perl-HTTP-Parser-XS package.
@@ -40,19 +49,11 @@ Group: Default
 license components for the perl-HTTP-Parser-XS package.
 
 
-%package man
-Summary: man components for the perl-HTTP-Parser-XS package.
-Group: Default
-
-%description man
-man components for the perl-HTTP-Parser-XS package.
-
-
 %prep
-tar -xf %{SOURCE1}
-cd ..
 %setup -q -n HTTP-Parser-XS-0.17
-mkdir -p %{_topdir}/BUILD/HTTP-Parser-XS-0.17/deblicense/
+cd ..
+%setup -q -T -D -n HTTP-Parser-XS-0.17 -b 1
+mkdir -p deblicense/
 mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/HTTP-Parser-XS-0.17/deblicense/
 
 %build
@@ -77,12 +78,12 @@ make TEST_VERBOSE=1 test
 
 %install
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/perl-HTTP-Parser-XS
-cp deblicense/copyright %{buildroot}/usr/share/doc/perl-HTTP-Parser-XS/deblicense_copyright
+mkdir -p %{buildroot}/usr/share/package-licenses/perl-HTTP-Parser-XS
+cp deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-HTTP-Parser-XS/deblicense_copyright
 if test -f Makefile.PL; then
-make pure_install PERL_INSTALL_ROOT=%{buildroot}
+make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
-./Build install --installdirs=site --destdir=%{buildroot}
+./Build install --installdirs=vendor --destdir=%{buildroot}
 fi
 find %{buildroot} -type f -name .packlist -exec rm -f {} ';'
 find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null ';'
@@ -91,17 +92,17 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files
 %defattr(-,root,root,-)
-/usr/lib/perl5/site_perl/5.26.1/x86_64-linux-thread-multi/HTTP/Parser/XS.pm
-/usr/lib/perl5/site_perl/5.26.1/x86_64-linux-thread-multi/HTTP/Parser/XS/PP.pm
+/usr/lib/perl5/vendor_perl/5.26.1/x86_64-linux-thread-multi/HTTP/Parser/XS.pm
+/usr/lib/perl5/vendor_perl/5.26.1/x86_64-linux-thread-multi/HTTP/Parser/XS/PP.pm
+
+%files dev
+%defattr(-,root,root,-)
+/usr/share/man/man3/HTTP::Parser::XS.3
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib/perl5/site_perl/5.26.1/x86_64-linux-thread-multi/auto/HTTP/Parser/XS/XS.so
+/usr/lib/perl5/vendor_perl/5.26.1/x86_64-linux-thread-multi/auto/HTTP/Parser/XS/XS.so
 
 %files license
-%defattr(-,root,root,-)
-/usr/share/doc/perl-HTTP-Parser-XS/deblicense_copyright
-
-%files man
-%defattr(-,root,root,-)
-/usr/share/man/man3/HTTP::Parser::XS.3
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/perl-HTTP-Parser-XS/deblicense_copyright
