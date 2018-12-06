@@ -4,7 +4,7 @@
 #
 Name     : perl-HTTP-Parser-XS
 Version  : 0.17
-Release  : 7
+Release  : 8
 URL      : https://cpan.metacpan.org/authors/id/K/KA/KAZUHO/HTTP-Parser-XS-0.17.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/K/KA/KAZUHO/HTTP-Parser-XS-0.17.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libh/libhttp-parser-xs-perl/libhttp-parser-xs-perl_0.17-1.debian.tar.xz
@@ -54,7 +54,7 @@ license components for the perl-HTTP-Parser-XS package.
 cd ..
 %setup -q -T -D -n HTTP-Parser-XS-0.17 -b 1
 mkdir -p deblicense/
-mv %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/HTTP-Parser-XS-0.17/deblicense/
+cp -r %{_topdir}/BUILD/debian/* %{_topdir}/BUILD/HTTP-Parser-XS-0.17/deblicense/
 
 %build
 export http_proxy=http://127.0.0.1:9/
