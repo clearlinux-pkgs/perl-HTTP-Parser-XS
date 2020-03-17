@@ -4,7 +4,7 @@
 #
 Name     : perl-HTTP-Parser-XS
 Version  : 0.17
-Release  : 12
+Release  : 13
 URL      : https://cpan.metacpan.org/authors/id/K/KA/KAZUHO/HTTP-Parser-XS-0.17.tar.gz
 Source0  : https://cpan.metacpan.org/authors/id/K/KA/KAZUHO/HTTP-Parser-XS-0.17.tar.gz
 Source1  : http://http.debian.net/debian/pool/main/libh/libhttp-parser-xs-perl/libhttp-parser-xs-perl_0.17-1.debian.tar.xz
@@ -80,7 +80,7 @@ make TEST_VERBOSE=1 test
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/perl-HTTP-Parser-XS
-cp %{_builddir}/HTTP-Parser-XS-0.17/deblicense/copyright %{buildroot}/usr/share/package-licenses/perl-HTTP-Parser-XS/f4534b6d73480e53100c7f12f1c4f50c9adb9904
+cp %{_builddir}/debian/copyright %{buildroot}/usr/share/package-licenses/perl-HTTP-Parser-XS/f4534b6d73480e53100c7f12f1c4f50c9adb9904
 if test -f Makefile.PL; then
 make pure_install PERL_INSTALL_ROOT=%{buildroot} INSTALLDIRS=vendor
 else
@@ -104,6 +104,6 @@ find %{buildroot} -type f -name '*.bs' -empty -exec rm -f {} ';'
 
 %files perl
 %defattr(-,root,root,-)
-/usr/lib/perl5/vendor_perl/5.30.1/x86_64-linux-thread-multi/HTTP/Parser/XS.pm
-/usr/lib/perl5/vendor_perl/5.30.1/x86_64-linux-thread-multi/HTTP/Parser/XS/PP.pm
-/usr/lib/perl5/vendor_perl/5.30.1/x86_64-linux-thread-multi/auto/HTTP/Parser/XS/XS.so
+/usr/lib/perl5/vendor_perl/5.30.2/x86_64-linux-thread-multi/HTTP/Parser/XS.pm
+/usr/lib/perl5/vendor_perl/5.30.2/x86_64-linux-thread-multi/HTTP/Parser/XS/PP.pm
+/usr/lib/perl5/vendor_perl/5.30.2/x86_64-linux-thread-multi/auto/HTTP/Parser/XS/XS.so
